@@ -1,0 +1,18 @@
+body {
+  font-family: sans-serif
+}
+body a {
+  text-decoration: none;
+}
+body label {
+  display: block;
+}
+body nav a {
+  display: inline-block;
+  margin: 1em;
+}
+body form div {
+  margin: 1em;
+  display: inline-block;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJtYWluLmJ1bmRsZS5jc3MiLCJzb3VyY2VSb290IjoiIn0=*/

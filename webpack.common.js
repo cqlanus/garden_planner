@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -18,13 +18,24 @@ module.exports = {
         use: ['babel-loader']
       },
       {
-        test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          use: [
+            {
+              loader: 'css-loader',
+              options: { importLoaders: 1 },
+            },
+            'postcss-loader',
+          ],
+        }),
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: ['file-loader']
       }
     ]
-  }
+  },
+  plugins: [
+    new ExtractTextPlugin('[name].bundle.css'),
+  ],
 };
