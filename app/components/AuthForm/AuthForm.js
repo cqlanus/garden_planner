@@ -9,7 +9,6 @@ import {auth} from '../../redux';
  */
 const AuthForm = (props) => {
   const {name, displayName, handleSubmit, error} = props;
-
   return (
     <div>
       <form onSubmit={handleSubmit} name={name}>
@@ -61,7 +60,7 @@ const mapDispatch = (dispatch) => {
       const formName = evt.target.name;
       const email = evt.target.email.value;
       const password = evt.target.password.value;
-      dispatch(auth(email, password, formName));
+      // dispatch(auth(email, password, formName));
     }
   };
 };
