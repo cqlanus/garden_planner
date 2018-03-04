@@ -1,9 +1,8 @@
+// @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
     VictoryChart,
-    VictoryAxis,
     VictoryTheme,
     VictoryArea,
     VictoryLine,
@@ -11,23 +10,43 @@ import {
 } from 'victory';
 import { getWeatherNorms } from '../../redux';
 
+type Props = {
+    getWeatherNorms: string => void,
+    plants: mixed,
+    station: {
+        daily: {
+            minTemps: Array<number>,
+            maxTemps: Array<number>
+        }
+    }
+};
+
+type State = {
+    zip: string
+};
+
+type Event = {
+    preventDefault: () => void,
+    target: { value: string }
+};
+
 /**
  * COMPONENT
  */
-export class UserHome extends Component {
+export class UserHome extends Component<Props, State> {
     state = {
-        zip: 60007
+        zip: '60007'
     };
 
-    _handleClick = evt => {
+    _handleClick = (evt: Event) => {
         evt.preventDefault();
         this.props.getWeatherNorms(this.state.zip);
     };
 
-    _handleChange = evt => this.setState({ zip: +evt.target.value });
+    _handleChange = (evt: Event) => this.setState({ zip: evt.target.value });
 
     render() {
-        const { plants, station } = this.props;
+        const { station } = this.props;
         return (
             <div>
                 <form onSubmit={this._handleClick}>
@@ -102,10 +121,3 @@ const mapDispatch = dispatch => {
 };
 
 export default connect(mapState, mapDispatch)(UserHome);
-
-/**
- * PROP TYPES
- */
-UserHome.propTypes = {
-    email: PropTypes.string
-};

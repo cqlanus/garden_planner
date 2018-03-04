@@ -1,23 +1,26 @@
+// @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Main, UserHome } from './components';
 import { me, getWeatherNorms, getPlants } from './redux';
+
+type Props = {
+    getPlants: () => void,
+    getWeatherNorms: string => void,
+    isLoggedIn: boolean
+}
 
 /**
  * COMPONENT
  */
-class App extends Component {
+class App extends Component<Props> {
     componentDidMount() {
         const { getWeatherNorms, getPlants } = this.props;
-        getWeatherNorms(60007);
+        getWeatherNorms('60007');
         getPlants();
-        // this.props.loadInitialData();
     }
 
     render() {
-        const { isLoggedIn } = this.props;
-
         return (
             <Main>
                 <UserHome />
@@ -46,11 +49,3 @@ const mapDispatch = dispatch => {
 };
 
 export default connect(mapState, mapDispatch)(App);
-
-/**
- * PROP TYPES
- */
-App.propTypes = {
-    loadInitialData: PropTypes.func.isRequired,
-    isLoggedIn: PropTypes.bool.isRequired
-};
