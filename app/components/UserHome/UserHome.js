@@ -7,16 +7,21 @@ import {
     VictoryArea,
     VictoryLine,
     VictoryBar,
-    VictoryTooltip
+    VictoryTooltip,
+    VictoryScatter
 } from 'victory';
 import { getWeatherNorms } from '../../redux';
 import { getDayOfYear } from '../../utils/dates';
 
 type Props = {
     getWeatherNorms: string => void,
-    plants: mixed,
+    plants: Array<Plant>,
     station: Station
 };
+
+type Plant = {
+    sowIndoors: number
+}
 
 type Station = {
     daily: {
@@ -59,8 +64,14 @@ class UserHome extends Component<Props, State> {
 
     _handleChange = (evt: Event) => this.setState({ zip: evt.target.value });
 
+    _getIndoorSowDay = (plant: Plant, station: Station) => {
+        const sowIndoors = plant.sowIndoors * 7;
+        const lastFrost = getDayOfYear(station.station.last_frost_50);
+        return lastFrost - sowIndoors;
+    }
+
     render() {
-        const { station } = this.props;
+        const { station, plants } = this.props;
         return (
             <div>
                 <form onSubmit={this._handleClick}>
@@ -71,7 +82,7 @@ class UserHome extends Component<Props, State> {
                     />
                     <button type="submit">Search</button>
                 </form>
-                {station.daily && (
+                {station.daily && !!plants.length && (
                     <VictoryChart
                         width={700}
                         height={500}
@@ -129,6 +140,17 @@ class UserHome extends Component<Props, State> {
                                     labelComponent={<VictoryTooltip />}
                                 />
                             )}
+                        
+                        <VictoryScatter
+                            size={3}
+                            data={[
+                                { 
+                                    x: new Date(2018, 0, this._getIndoorSowDay(plants[4], station)),
+                                    y: 50
+                                }
+                            ]}
+                        />
+                            
                     </VictoryChart>
                 )}
             </div>

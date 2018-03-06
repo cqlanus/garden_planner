@@ -1,7 +1,19 @@
+// @flow
 import axios from 'axios';
 
+type State = {
+    station: {},
+    zip: mixed,
+    isWorking: boolean
+}
+
+type Action = {
+    type: string,
+    station?: {},
+}
+
 // INITIAL STATE
-const initialState = {
+const initialState: State = {
     station: {},
     zip: null,
     isWorking: false
@@ -13,14 +25,14 @@ const SET_STATION_COMPLETE = 'SET_STATION_COMPLETE';
 const SET_STATION_FAILED = 'SET_STATION_FAILED';
 
 // ACTION CREATORS
-const setStationStarted = () => ({ type: SET_STATION_STARTED });
-const setStationCompleted = station => ({
+const setStationStarted = (): Action => ({ type: SET_STATION_STARTED });
+const setStationCompleted = (station: {}): Action => ({
     type: SET_STATION_COMPLETE,
     station
 });
 
 // THUNK CREATORS
-export const getWeatherNorms = zip => dispatch => {
+export const getWeatherNorms = (zip: string) => (dispatch: any) => {
     dispatch(setStationStarted());
     axios
         .get(`https://weather-norms.herokuapp.com/api/weather/zip/${zip}`)
@@ -30,7 +42,7 @@ export const getWeatherNorms = zip => dispatch => {
 };
 
 // REDUCER
-export default function(state = initialState, action) {
+export default function(state: State = initialState, action: Action) {
     switch (action.type) {
     case SET_STATION_STARTED:
         return { ...state, isWorking: true };
