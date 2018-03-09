@@ -6,6 +6,11 @@ type State = {
     isWorking: boolean
 };
 
+type Action = {
+    type: string,
+    plants?: Array<mixed>
+};
+
 // INITIAL STATE
 const initialState = {
     plants: [],
@@ -16,18 +21,6 @@ const initialState = {
 const SET_PLANTS_STARTED = 'SET_PLANTS_STARTED';
 const SET_PLANTS_COMPLETE = 'SET_PLANTS_COMPLETE';
 const SET_PLANTS_FAILED = 'SET_PLANTS_FAILED';
-
-// ACTION TYPE ANNOTATIONS
-type setPlantsStartedAction = {
-    type: string
-};
-
-type setPlantsCompletedAction = {
-    type: string,
-    plants: Array<mixed>
-};
-
-type Action = setPlantsStartedAction | setPlantsCompletedAction;
 
 // ACTION CREATORS
 const setPlantsStarted = (): Action => ({ type: SET_PLANTS_STARTED });
