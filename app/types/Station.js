@@ -1,5 +1,5 @@
 // @flow
-export type Station = {
+export type StationType = {
     daily: {
         minTemps: Array<number>,
         maxTemps: Array<number>,

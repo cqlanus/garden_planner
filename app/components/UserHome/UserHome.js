@@ -2,13 +2,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { AnnualTemps, CropBars } from '../'
-import type { Station, Plant } from '../../types';
+import type { StationType, Plant } from '../../types';
 import { getWeatherNorms } from '../../redux';
 
 type Props = {
     getWeatherNorms: string => void,
     plants: Array<Plant>,
-    station: Station
+    station: StationType
 };
 
 type State = {
@@ -47,7 +47,7 @@ class UserHome extends Component<Props, State> {
                     />
                     <button type="submit">Search</button>
                 </form>
-                {!!plants.length && <CropBars plants={plants} />}
+                {!!plants.length && station.daily && <CropBars plants={plants} station={station} />}
                 {station.daily && <AnnualTemps station={station} />}
             </div>
         );

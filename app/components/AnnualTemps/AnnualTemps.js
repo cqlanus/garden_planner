@@ -5,15 +5,13 @@ import {
     VictoryTheme,
     VictoryArea,
     VictoryLine,
-    VictoryBar,
-    VictoryTooltip,
     VictoryLegend,
     VictoryAxis
 } from 'victory';
-import type {Station} from '../../types';
+import type {StationType} from '../../types';
 
 type Props = {
-    station: Station,
+    station: StationType,
 };
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

@@ -1,4 +1,7 @@
 // @flow
 export type Plant = {
-    sowIndoorsBeforeLastFrost: number
+    sowIndoorsBeforeLastFrost: number | null,
+    sowOutdoorsBeforeFirstFrost: number | null,
+    sowOutdoorsBeforeLastFrost: number | null,
+    transplantBeforeLastFrost: number | null
 };
