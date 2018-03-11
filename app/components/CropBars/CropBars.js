@@ -4,10 +4,13 @@ import {
     VictoryChart,
     VictoryTheme,
     VictoryStack,
+    VictoryTooltip,
+    VictoryCursorContainer,
     VictoryBar,
     VictoryAxis
 } from 'victory';
-import { Crop } from '../../utils/'
+import { Crop, formatAxis } from '../../utils/'
+import { Label } from '../'
 import type { StationType, Plant } from '../../types';
 
 type Props = {
@@ -20,13 +23,19 @@ export default class CropBars extends Component<Props> {
     _getSowIndoorCoords = (plant: Plant) => {
         const { station } = this.props
         const crop = new Crop(plant, station)
-        return crop._getSowIndoorCoords()
+        return crop.getSowIndoorCoords()
     }
 
     _getSowOutdoorCoords = (plant: Plant) => {
         const { station } = this.props
         const crop = new Crop(plant, station)
-        return crop._getSowOutdoorCoords()
+        return crop.getSowOutdoorCoords()
+    }
+
+    _getHarvestCoords = (plant: Plant) => {
+        const { station } = this.props
+        const crop = new Crop(plant, station)
+        return crop.getHarvestCoords()
     }
     
     render() {
@@ -38,23 +47,43 @@ export default class CropBars extends Component<Props> {
                 <VictoryChart
                     width={700}
                     height={500}
-                    // scale={{ x: 'time' }}
-                    // domain={{x: [new Date(2018, 0, 0), new Date(2018, 0, 365)]}}
-                    domain={{ x: [0, 366] }}
+                    // containerComponent={<VictoryZoomContainer/>}
+                    containerComponent={
+                        <VictoryCursorContainer
+                            cursorDimension="x"
+                            cursorLabelComponent={
+                                <Label 
+                                    plants={sample}
+                                />
+                            }
+                            cursorLabel={d => ({...d})}
+                        />
+                    }
+                    domain={{x: [0, 366]}}
                     domainPadding={10}
-                    animate
                     theme={VictoryTheme.material}
                 >
-                    <VictoryStack horizontal colorScale={['steelblue', 'indianred']}>
-                        <VictoryBar
-                            data={sample.map(this._getSowIndoorCoords)}
+                    <VictoryStack 
+                        horizontal 
+                        colorScale={['steelblue', 'darkseagreen', 'indianred']}>
+                        <VictoryBar 
+                            data ={sample.map(this._getSowIndoorCoords)}
                         />
                         <VictoryBar 
-                            data={sample.map(this._getSowOutdoorCoords)}
+                            style={{data: {strokeWidth: 3}}}
+                            data ={sample.map(this._getHarvestCoords)}
                         />
+                        
+                        <VictoryBar 
+                            data ={sample.map(this._getSowOutdoorCoords)}
+                        />
+                        
                     </VictoryStack>
                     <VictoryAxis 
-                        
+                        tickCount={10}
+                        style={{tickLabels: {fontSize: 8}}}
+                        tickFormat={formatAxis}
+                        axisLabelComponent={<VictoryTooltip />}
                     />
                     <VictoryAxis
                         dependentAxis

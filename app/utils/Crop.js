@@ -7,7 +7,8 @@ export class Crop {
         this.station = new Station(station);
     }
 
-    _getIndoorSowMin = (lastFrost: number): number => {
+    _getIndoorSowMin = (): number => {
+        const lastFrost = this.station._getLastFrost()
         if (this.plant.sowIndoorsBeforeLastFrost) {
             const sowIndoors = this.plant.sowIndoorsBeforeLastFrost * 7;
             return lastFrost - sowIndoors;
@@ -16,53 +17,79 @@ export class Crop {
         }
     };
 
-    _getIndoorSowMax = (lastFrost: number): number => {
+    _getIndoorSowMax = (): number => {
+        const lastFrost = this.station._getLastFrost()
         if (this.plant.sowOutdoorsBeforeLastFrost) {
-            return lastFrost - 7 * this.plant.sowOutdoorsBeforeLastFrost;
+            return lastFrost - (7 * this.plant.sowOutdoorsBeforeLastFrost);
         } else {
             return lastFrost;
         }
     };
 
-    _getSowOutdoorMin = (lastFrost: number): number =>
-        this._getIndoorSowMax(lastFrost);
+    _getSowOutdoorMin = (): number => {
+        return this._getIndoorSowMax();
+    }
 
-    _getSowOutdoorMax = (firstFrost: number, lastFrost: number): number => {
+    _getSowOutdoorMax = (): number => {
+        const firstFrost = this.station._getFirstFrost()
+        const sowOutdoorsMin = this._getSowOutdoorMin()
         if (this.plant.sowOutdoorsBeforeFirstFrost) {
             return (
                 firstFrost -
-                7 * this.plant.sowOutdoorsBeforeFirstFrost -
-                this._getSowOutdoorMin(lastFrost)
+                (7 * this.plant.sowOutdoorsBeforeFirstFrost) -
+                sowOutdoorsMin
             );
         } else {
             return 0;
         }
     };
 
-    _getSowIndoorCoords = () => {
-        const lastFrost = this.station._getLastFrost();
-        const sowIndoorsMin = this._getIndoorSowMin(lastFrost);
-        const sowIndoorsMax = sowIndoorsMin
-            ? this._getIndoorSowMax(lastFrost) - sowIndoorsMin
-            : 0;
+    _getHarvestMin = (): number => {
+        const sowMin = this._getIndoorSowMin()
+        const lastFrost = this.station._getLastFrost()
+        const firstNum = sowMin > 0 ? sowMin : lastFrost
+        return firstNum + this.plant.minDaysToMaturity 
+    }
+
+    _getHarvestMax = (): number => {
+        const harvestMin = this._getHarvestMin()
+        const firstFrost = this.station._getFirstFrost()
+        const diff = firstFrost - harvestMin
+        // const harvestMax = this.plant.sowIndoorsBeforeLastFrost > 6 ? 7 : 0
+        return diff
+    }
+
+    getHarvestCoords = () => {
+        const harvestMin = this._getHarvestMin()
+        const harvestMax = this._getHarvestMax()
         return {
             x: this.plant.id,
-            y0: sowIndoorsMin,
-            y: sowIndoorsMax
-            // y0: new Date(2018, 0, sowIndoorsMin),
-            // y: new Date(2018, 0, sowIndoorsMax)
-        };
+            y0: harvestMin,
+            y: harvestMax
+        }
+    }
+
+    getSowIndoorCoords = () => {
+        const sowIndoorsMin = this._getIndoorSowMin();
+        const sowIndoorsMax = sowIndoorsMin ? this._getIndoorSowMax() - sowIndoorsMin : 0;
+        // return sowIndoorsMin > 0 ? {
+        //     x: this.plant.id,
+        //     y0: getDate(sowIndoorsMin),
+        //     y: getDate(sowIndoorsMax)
+        // } : {x: this.plant.id, y: getDate(0)} ;
+        return { x: this.plant.id, y0: sowIndoorsMin, y: sowIndoorsMax}
     };
 
-    _getSowOutdoorCoords = () => {
-        const lastFrost = this.station._getLastFrost();
-        const firstFrost = this.station._getFirstFrost();
-        const sowOutdoorsMin = this._getSowOutdoorMin(lastFrost);
-        const sowOutdoorMax = this._getSowOutdoorMax(firstFrost, lastFrost);
-        return {
-            x: this.plant.id,
-            y0: sowOutdoorsMin,
-            y: sowOutdoorMax
-        };
+    getSowOutdoorCoords = () => {
+        const sowOutdoorsMin = this._getSowOutdoorMin();
+        const sowOutdoorsMax = this._getSowOutdoorMax();
+        // console.log('outdoormin', this.plant.commonName, sowOutdoorsMin, getDate(sowOutdoorsMin))
+        // console.log('outdoormax', this.plant.commonName, sowOutdoorsMax, getDate(sowOutdoorsMax))
+        // return {
+        //     x: this.plant.id,
+        //     y0: getDate(sowOutdoorsMin), // baseline date
+        //     y: getDate(sowOutdoorsMax) // days to add to baseline
+        // };
+        return { x: this.plant.id, y0: sowOutdoorsMin, y: sowOutdoorsMax}
     };
 }
