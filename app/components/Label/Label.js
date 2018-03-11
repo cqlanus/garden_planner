@@ -13,7 +13,7 @@ export default class Label extends Component<Props> {
     render() {
         const { x, y, plants, text } = this.props
         const plant = plants[Math.floor(text.y)]
-        const date = formatAxis(text.y)
+        const date = formatAxis(text.x)
         return (
             <g>
                 {!!plant && <g>
