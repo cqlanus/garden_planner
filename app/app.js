@@ -22,9 +22,7 @@ class App extends Component<Props> {
 
     render() {
         return (
-            <Main>
-                <UserHome />
-            </Main>
+            <UserHome />
         );
     }
 }
