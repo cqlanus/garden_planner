@@ -6,76 +6,94 @@ import {
     VictoryArea,
     VictoryLine,
     VictoryLegend,
-    VictoryAxis
+    VictoryAxis,
+    VictoryCursorContainer
 } from 'victory';
-import type {StationType} from '../../types';
+import type { StationType } from '../../types';
+import { formatAxis } from '../../utils'
+import { TempLabel } from '../'
 
 type Props = {
-    station: StationType,
+    station: StationType
 };
-
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 /**
  * COMPONENT
  */
 export default class AnnualTemps extends Component<Props> {
-
     render() {
         const { station } = this.props;
+        const maxTemps = station.daily.maxTemps
+            .filter(temp => temp > 0)
+            .map((temp, idx) => ({
+                day: idx,
+                temp: temp
+            }));
+
+        const minTemps = station.daily.minTemps
+            .filter(temp => temp > 0)
+            .map((temp, idx) => ({
+                day: idx,
+                temp: temp
+            }))
+        const gdd40 = station.daily.dailyGdd40
+            .filter(gdd => gdd !== -888)
+            .map((gdd, idx) => ({
+                day: idx,
+                gdd: gdd > 0 ? gdd : 0
+            }))
+        const gdd50 = station.daily.dailyGdd50
+            .filter(gdd => gdd !== -888)
+            .map((gdd, idx) => ({
+                day: idx,
+                gdd: gdd > 0 ? gdd : 0
+            }))
         return (
-            <div>
+            <div className={'annualTemps'}>
                 {station.daily && (
                     <VictoryChart
                         width={700}
                         height={500}
-                        scale={{ x: 'time' }}
-                        // animate
+                        domain={{x: [0, 366]}}
                         theme={VictoryTheme.material}
+                        containerComponent={
+                            <VictoryCursorContainer
+                                cursorDimension="x"
+                                cursorLabelComponent={
+                                    <TempLabel 
+                                        minTemps={minTemps}
+                                        maxTemps={maxTemps}
+                                        gdd40={gdd40}
+                                        gdd50={gdd50}
+                                    />
+                                }
+                                cursorLabel={d => ({...d})}
+                            />
+                        }
                     >
                         <VictoryArea
                             style={{ data: { fill: '#FCBAB8' } }}
                             x={'day'}
                             y={'temp'}
-                            data={station.daily.maxTemps
-                                .filter(temp => temp > 0)
-                                .map((temp, idx) => ({
-                                    day: new Date(2018, 0, idx),
-                                    temp: temp
-                                }))}
+                            data={maxTemps}
                         />
                         <VictoryArea
                             style={{ data: { fill: '#95D7D8' } }}
                             x={'day'}
                             y={'temp'}
-                            data={station.daily.minTemps
-                                .filter(temp => temp > 0)
-                                .map((temp, idx) => ({
-                                    day: new Date(2018, 0, idx),
-                                    temp: temp
-                                }))}
+                            data={minTemps}
                         />
                         <VictoryArea
                             style={{ data: { fill: '#F4F4A8' } }}
                             x={'day'}
                             y={'gdd'}
-                            data={station.daily.dailyGdd40
-                                .filter(gdd => gdd !== -888)
-                                .map((gdd, idx) => ({
-                                    day: new Date(2018, 0, idx),
-                                    gdd: gdd > 0 ? gdd : 0
-                                }))}
-                        />  
+                            data={gdd40}
+                        />
                         <VictoryArea
                             style={{ data: { fill: '#C0E2C0' } }}
                             x={'day'}
                             y={'gdd'}
-                            data={station.daily.dailyGdd50
-                                .filter(gdd => gdd !== -888)
-                                .map((gdd, idx) => ({
-                                    day: new Date(2018, 0, idx),
-                                    gdd: gdd > 0 ? gdd : 0
-                                }))}
+                            data={gdd50}
                         />
 
                         <VictoryLine
@@ -91,31 +109,47 @@ export default class AnnualTemps extends Component<Props> {
                             data={station.daily.minTemps
                                 .filter(temp => temp > 0)
                                 .map((temp, idx) => ({
-                                    day: new Date(2018, 0, idx),
+                                    day: idx,
                                     temp: 32
                                 }))}
                         />
 
-                        <VictoryLegend x={50} width={800}
+                        <VictoryLegend
+                            x={50}
+                            width={800}
                             orientation="horizontal"
                             gutter={20}
                             data={[
-                                {name: 'Daily Max Temps', symbol: {fill: '#FCBAB8'} },
-                                {name: 'Daily Min Temps', symbol: {fill: '#95D7D8'}},
-                                {name: 'Daily GDD (40℃)', symbol: {fill: '#F4F4A8'}},
-                                {name: 'Daily GDD (50℃)', symbol: {fill: '#C0E2C0'}},
+                                {
+                                    name: 'Daily Max Temps',
+                                    symbol: { fill: '#FCBAB8' }
+                                },
+                                {
+                                    name: 'Daily Min Temps',
+                                    symbol: { fill: '#95D7D8' }
+                                },
+                                {
+                                    name: 'Daily GDD (40°F)',
+                                    symbol: { fill: '#F4F4A8' }
+                                },
+                                {
+                                    name: 'Daily GDD (50°F)',
+                                    symbol: { fill: '#C0E2C0' }
+                                }
                             ]}
                         />
-                        <VictoryAxis 
-                            dependentAxis 
-                            style={{axisLabel: {padding: 40}}}
+                        <VictoryAxis
+                            dependentAxis
+                            style={{ axisLabel: { padding: 40 }, tickLabels: {fontSize: 10} }}
                             label="Temperature"
-                            tickCount={10}/>
-                        <VictoryAxis 
-                            style={{axisLabel: {padding: 35}}}
+                            tickCount={10}
+                        />
+                        <VictoryAxis
+                            style={{ axisLabel: { padding: 35 }, tickLabels: {fontSize: 8} }}
                             label="Months"
-                            tickCount={8} 
-                            tickFormat={d => months[d.getMonth()]}/>
+                            tickCount={10}
+                            tickFormat={d => formatAxis(d)}
+                        />
                     </VictoryChart>
                 )}
             </div>

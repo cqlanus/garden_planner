@@ -7,10 +7,11 @@ import {
     VictoryTooltip,
     VictoryCursorContainer,
     VictoryBar,
+    VictoryLegend,
     VictoryAxis
 } from 'victory';
 import { Crop, formatAxis } from '../../utils/'
-import { Label } from '../'
+import { CropLabel } from '../'
 import type { StationType, Plant } from '../../types';
 
 type Props = {
@@ -47,12 +48,11 @@ export default class CropBars extends Component<Props> {
                 <VictoryChart
                     width={700}
                     height={500}
-                    // containerComponent={<VictoryZoomContainer/>}
                     containerComponent={
                         <VictoryCursorContainer
                             cursorDimension="x"
                             cursorLabelComponent={
-                                <Label 
+                                <CropLabel 
                                     plants={sample}
                                 />
                             }
@@ -91,6 +91,15 @@ export default class CropBars extends Component<Props> {
                         style={{tickLabels: {fontSize: 8}}}
                         tickValues={sample.map(plant => plant.id)}
                         tickFormat={sample.map(plant => plant.commonName)}
+                    />
+                    <VictoryLegend x={50} width={800}
+                        orientation="horizontal"
+                        gutter={20}
+                        data={[
+                            {name: 'Sow Indoors', symbol: {fill: 'steelblue'} },
+                            {name: 'Harvest', symbol: {fill: 'darkseagreen'}},
+                            {name: 'Sow/Transplant Outdoors', symbol: {fill: 'indianred'}},
+                        ]}
                     />
                 </VictoryChart>
             </div>

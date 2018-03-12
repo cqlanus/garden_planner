@@ -8,4 +8,5 @@ export { default as UserHome } from './UserHome/UserHome';
 export { Login, Signup } from './AuthForm/AuthForm';
 export { default as AnnualTemps } from './AnnualTemps/AnnualTemps';
 export { default as CropBars } from './CropBars/CropBars';
-export { default as Label } from './Label/Label';
+export { default as CropLabel } from './CropLabel/CropLabel';
+export { default as TempLabel } from './TempLabel/TempLabel';
