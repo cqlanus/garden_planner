@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
     VictoryChart,
     VictoryTheme,
@@ -8,19 +8,18 @@ import {
     VictoryCursorContainer,
     VictoryBar,
     VictoryLegend,
-    VictoryAxis
-} from 'victory';
+    VictoryAxis,
+} from 'victory'
 import { Crop, formatAxis } from '../../utils/'
 import { CropLabel } from '../'
-import type { StationType, Plant } from '../../types';
+import type { StationType, Plant } from '../../types'
 
 type Props = {
     plants: Array<Plant>,
-    station: StationType
-};
+    station: StationType,
+}
 
 export default class CropBars extends Component<Props> {
-
     _getSowIndoorCoords = (plant: Plant) => {
         const { station } = this.props
         const crop = new Crop(plant, station)
@@ -38,71 +37,77 @@ export default class CropBars extends Component<Props> {
         const crop = new Crop(plant, station)
         return crop.getHarvestCoords()
     }
-    
+
     render() {
-        const { plants } = this.props;
-        const sample = plants;
+        const { plants } = this.props
+        const sample = plants
 
         return (
             <div>
                 <VictoryChart
+                    // animate
                     width={700}
                     height={500}
                     containerComponent={
                         <VictoryCursorContainer
                             cursorDimension="x"
-                            cursorLabelComponent={
-                                <CropLabel 
-                                    plants={sample}
-                                />
-                            }
-                            cursorLabel={d => ({...d})}
+                            cursorLabelComponent={<CropLabel plants={sample} />}
+                            cursorLabel={d => ({ ...d })}
                         />
                     }
-                    domain={{x: [0, 366]}}
+                    domain={{ x: [0, 366] }}
                     domainPadding={10}
-                    theme={VictoryTheme.material}
-                >
-                    <VictoryStack 
-                        horizontal 
+                    theme={VictoryTheme.material}>
+                    <VictoryStack
+                        horizontal
                         colorScale={['steelblue', 'darkseagreen', 'indianred']}>
-                        <VictoryBar 
-                            data ={sample.map(this._getSowIndoorCoords)}
+                        <VictoryBar
+                            data={sample.map(this._getSowIndoorCoords)}
                         />
-                        <VictoryBar 
-                            style={{data: {strokeWidth: 3}}}
-                            data ={sample.map(this._getHarvestCoords)}
+                        <VictoryBar
+                            style={{ data: { strokeWidth: 3 } }}
+                            data={sample.map(this._getHarvestCoords)}
                         />
-                        
-                        <VictoryBar 
-                            data ={sample.map(this._getSowOutdoorCoords)}
+
+                        <VictoryBar
+                            data={sample.map(this._getSowOutdoorCoords)}
                         />
-                        
                     </VictoryStack>
-                    <VictoryAxis 
+                    <VictoryAxis
                         tickCount={10}
-                        style={{tickLabels: {fontSize: 8}}}
+                        style={{ tickLabels: { fontSize: 8 } }}
                         tickFormat={formatAxis}
                         axisLabelComponent={<VictoryTooltip />}
                     />
                     <VictoryAxis
                         dependentAxis
                         invertAxis
-                        style={{tickLabels: {fontSize: 8}}}
+                        style={{ tickLabels: { fontSize: 8 } }}
                         tickValues={sample.map(plant => plant.id)}
                         tickFormat={sample.map(plant => plant.commonName)}
                     />
-                    <VictoryLegend x={50} width={800}
+                    <VictoryLegend
+                        x={50}
+                        width={800}
                         orientation="horizontal"
                         gutter={20}
                         data={[
-                            {name: 'Sow Indoors', symbol: {fill: 'steelblue'} },
-                            {name: 'Harvest', symbol: {fill: 'darkseagreen'}},
-                            {name: 'Sow/Transplant Outdoors', symbol: {fill: 'indianred'}},
+                            {
+                                name: 'Sow Indoors',
+                                symbol: { fill: 'steelblue' },
+                            },
+                            {
+                                name: 'Harvest',
+                                symbol: { fill: 'darkseagreen' },
+                            },
+                            {
+                                name: 'Sow/Transplant Outdoors',
+                                symbol: { fill: 'indianred' },
+                            },
                         ]}
                     />
                 </VictoryChart>
             </div>
-        );
+        )
     }
 }

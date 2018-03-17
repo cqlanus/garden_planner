@@ -1,26 +1,20 @@
 // @flow
-import React, { Component } from 'react';
-import type { Node } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
-import { logout } from '../../redux';
+import React, { Component } from 'react'
+import type { Node } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
+import { logout } from '../../redux'
 
 type Props = {
     children?: Node,
     handleClick: () => void,
-    isLoggedIn: boolean
-};
+    isLoggedIn: boolean,
+}
 
-/**
- * COMPONENT
- *  The Main component is our 'picture frame' - it displays the navbar and anything
- *  else common to our entire app. The 'picture' inside the frame is the space
- *  rendered out by the component's `children`.
- */
 class Main extends Component<Props> {
     render() {
-        const { children, handleClick, isLoggedIn } = this.props;
+        const { children, handleClick, isLoggedIn } = this.props
 
         return (
             <div>
@@ -45,7 +39,7 @@ class Main extends Component<Props> {
                 <hr />
                 {children}
             </div>
-        );
+        )
     }
 }
 
@@ -54,19 +48,19 @@ class Main extends Component<Props> {
  */
 const mapState = state => {
     return {
-        isLoggedIn: !!state.user.id
-    };
-};
+        isLoggedIn: !!state.user.id,
+    }
+}
 
 const mapDispatch = dispatch => {
     return {
-        handleClick: () => dispatch(logout())
-    };
-};
+        handleClick: () => dispatch(logout()),
+    }
+}
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
-export default withRouter(connect(mapState, mapDispatch)(Main));
+export default withRouter(connect(mapState, mapDispatch)(Main))
 
 /**
  * PROP TYPES
@@ -74,5 +68,5 @@ export default withRouter(connect(mapState, mapDispatch)(Main));
 Main.propTypes = {
     children: PropTypes.object,
     handleClick: PropTypes.func.isRequired,
-    isLoggedIn: PropTypes.bool.isRequired
-};
+    isLoggedIn: PropTypes.bool.isRequired,
+}

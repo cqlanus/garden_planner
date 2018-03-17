@@ -6,4 +6,4 @@ export type Plant = {
     transplantBeforeLastFrost: number | null,
     minDaysToMaturity: number,
     maxDaysToMaturity: number,
-};
+}

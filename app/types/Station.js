@@ -8,6 +8,6 @@ export type StationType = {
     },
     station: {
         last_frost_50: string,
-        first_frost_50: string
-    }
-};
+        first_frost_50: string,
+    },
+}

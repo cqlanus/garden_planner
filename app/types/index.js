@@ -1,2 +1,3 @@
-export type { StationType } from './Station';
-export type { Plant } from './Plant';
+// @flow
+export type { StationType } from './Station'
+export type { Plant } from './Plant'

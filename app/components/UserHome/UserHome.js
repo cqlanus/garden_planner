@@ -1,42 +1,42 @@
 // @flow
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { AnnualTemps, CropBars } from '../'
-import type { StationType, Plant } from '../../types';
-import { getWeatherNorms } from '../../redux';
+import type { StationType, Plant } from '../../types'
+import { getWeatherNorms } from '../../redux'
 
 type Props = {
     getWeatherNorms: string => void,
     plants: Array<Plant>,
-    station: StationType
-};
+    station: StationType,
+}
 
 type State = {
-    zip: string
-};
+    zip: string,
+}
 
 type Event = {
     preventDefault: () => void,
-    target: { value: string }
-};
+    target: { value: string },
+}
 
 /**
  * COMPONENT
  */
 class UserHome extends Component<Props, State> {
     state = {
-        zip: '60007'
-    };
+        zip: '60007',
+    }
 
     _handleClick = (evt: Event) => {
-        evt.preventDefault();
-        this.props.getWeatherNorms(this.state.zip);
-    };
+        evt.preventDefault()
+        this.props.getWeatherNorms(this.state.zip)
+    }
 
-    _handleChange = (evt: Event) => this.setState({ zip: evt.target.value });
+    _handleChange = (evt: Event) => this.setState({ zip: evt.target.value })
 
     render() {
-        const { station, plants } = this.props;
+        const { station, plants } = this.props
         return (
             <div>
                 <form onSubmit={this._handleClick}>
@@ -47,10 +47,13 @@ class UserHome extends Component<Props, State> {
                     />
                     <button type="submit">Search</button>
                 </form>
-                {!!plants.length && station.daily && <CropBars plants={plants} station={station} />}
+                {!!plants.length &&
+                    station.daily && (
+                        <CropBars plants={plants} station={station} />
+                    )}
                 {station.daily && <AnnualTemps station={station} />}
             </div>
-        );
+        )
     }
 }
 
@@ -60,14 +63,14 @@ class UserHome extends Component<Props, State> {
 const mapState = state => {
     return {
         plants: state.plants.plants,
-        station: state.weather.station
-    };
-};
+        station: state.weather.station,
+    }
+}
 
 const mapDispatch = dispatch => {
     return {
-        getWeatherNorms: zip => dispatch(getWeatherNorms(zip))
-    };
-};
+        getWeatherNorms: zip => dispatch(getWeatherNorms(zip)),
+    }
+}
 
-export default connect(mapState, mapDispatch)(UserHome);
+export default connect(mapState, mapDispatch)(UserHome)

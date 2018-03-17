@@ -7,7 +7,7 @@ type Props = {
     x: number,
     y: number,
     plants: Array<Plant>,
-    text: {x: number, y: number}
+    text: { x: number, y: number },
 }
 
 export default class CropLabel extends Component<Props> {
@@ -17,10 +17,16 @@ export default class CropLabel extends Component<Props> {
         const date = formatAxis(text.x)
         return (
             <g>
-                {!!plant && <g>
-                    <text x={x} y={y} style={{fontSize: 10}}>{plant.commonName}</text>
-                    <text x={x} y={40} style={{fontSize: 10}}>{date}</text>
-                </g>}
+                {!!plant && (
+                    <g>
+                        <text x={x} y={y} style={{ fontSize: 10 }}>
+                            {plant.commonName}
+                        </text>
+                        <text x={x} y={40} style={{ fontSize: 10 }}>
+                            {date}
+                        </text>
+                    </g>
+                )}
             </g>
         )
     }
