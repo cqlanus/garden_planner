@@ -50,6 +50,7 @@ export default class AnnualTemps extends Component<Props> {
             }))
         return (
             <div className={'annualTemps'}>
+                <h3>Historical Temperature Norms</h3>
                 {station.daily && (
                     <VictoryChart
                         // animate

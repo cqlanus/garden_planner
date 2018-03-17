@@ -11,7 +11,7 @@ export class Crop {
         const lastFrost = this.station._getLastFrost()
         if (this.plant.sowIndoorsBeforeLastFrost) {
             const sowIndoors = this.plant.sowIndoorsBeforeLastFrost * 7
-            return lastFrost - sowIndoors
+            return lastFrost - sowIndoors >= 0 ? lastFrost - sowIndoors : 1
         } else {
             return 0
         }
@@ -34,6 +34,9 @@ export class Crop {
         const firstFrost = this.station._getFirstFrost()
         const sowOutdoorsMin = this._getSowOutdoorMin()
         if (this.plant.sowOutdoorsBeforeFirstFrost) {
+            // if (this.plant.baseGdd && this.plant.baseGdd < 40) {
+            //     return firstFrost - 366 / 2 - sowOutdoorsMin
+            // }
             return (
                 firstFrost -
                 7 * this.plant.sowOutdoorsBeforeFirstFrost -
@@ -74,24 +77,12 @@ export class Crop {
         const sowIndoorsMax = sowIndoorsMin
             ? this._getIndoorSowMax() - sowIndoorsMin
             : 0
-        // return sowIndoorsMin > 0 ? {
-        //     x: this.plant.id,
-        //     y0: getDate(sowIndoorsMin),
-        //     y: getDate(sowIndoorsMax)
-        // } : {x: this.plant.id, y: getDate(0)} ;
         return { x: this.plant.id, y0: sowIndoorsMin, y: sowIndoorsMax }
     }
 
     getSowOutdoorCoords = () => {
         const sowOutdoorsMin = this._getSowOutdoorMin()
         const sowOutdoorsMax = this._getSowOutdoorMax()
-        // console.log('outdoormin', this.plant.commonName, sowOutdoorsMin, getDate(sowOutdoorsMin))
-        // console.log('outdoormax', this.plant.commonName, sowOutdoorsMax, getDate(sowOutdoorsMax))
-        // return {
-        //     x: this.plant.id,
-        //     y0: getDate(sowOutdoorsMin), // baseline date
-        //     y: getDate(sowOutdoorsMax) // days to add to baseline
-        // };
         return { x: this.plant.id, y0: sowOutdoorsMin, y: sowOutdoorsMax }
     }
 }

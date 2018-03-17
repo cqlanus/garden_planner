@@ -44,6 +44,7 @@ export default class CropBars extends Component<Props> {
 
         return (
             <div>
+                <h3>Garden Planting Calendar</h3>
                 <VictoryChart
                     // animate
                     width={700}

@@ -9,10 +9,10 @@ export class Station {
     _getLastFrost = () =>
         this.station.station.last_frost_50 !== '-666'
             ? getDayOfYear(this.station.station.last_frost_50)
-            : 366 / 2
+            : 40
 
     _getFirstFrost = () =>
         this.station.station.first_frost_50 !== '-666'
             ? getDayOfYear(this.station.station.first_frost_50)
-            : 366 / 2
+            : 360
 }
