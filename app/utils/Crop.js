@@ -9,11 +9,15 @@ export class Crop {
 
     _getIndoorSowMin = (): number => {
         const lastFrost = this.station._getLastFrost()
+        const dontSowIndoors = 0
         if (this.plant.sowIndoorsBeforeLastFrost) {
-            const sowIndoors = this.plant.sowIndoorsBeforeLastFrost * 7
-            return lastFrost - sowIndoors >= 0 ? lastFrost - sowIndoors : 1
+            const sowIndoorsDay = this.plant.sowIndoorsBeforeLastFrost * 7
+            const sowOnDayOne = 1
+            return lastFrost - sowIndoorsDay >= 0
+                ? lastFrost - sowIndoorsDay
+                : sowOnDayOne
         } else {
-            return 0
+            return dontSowIndoors
         }
     }
 
@@ -32,39 +36,36 @@ export class Crop {
 
     _getSowOutdoorMax = (): number => {
         const firstFrost = this.station._getFirstFrost()
-        const sowOutdoorsMin = this._getSowOutdoorMin()
         if (this.plant.sowOutdoorsBeforeFirstFrost) {
-            // if (this.plant.baseGdd && this.plant.baseGdd < 40) {
-            //     return firstFrost - 366 / 2 - sowOutdoorsMin
+            // if (this.plant.baseGdd && this.plant.baseGdd < 45) {
+            //     return 366 / 2
             // }
-            return (
-                firstFrost -
-                7 * this.plant.sowOutdoorsBeforeFirstFrost -
-                sowOutdoorsMin
-            )
+            return firstFrost - 7 * this.plant.sowOutdoorsBeforeFirstFrost
         } else {
-            return 0
+            return this.station._getLastFrost()
         }
     }
 
     _getHarvestMin = (): number => {
         const sowMin = this._getIndoorSowMin()
         const lastFrost = this.station._getLastFrost()
-        const firstNum = sowMin > 0 ? sowMin : lastFrost
-        return firstNum + this.plant.minDaysToMaturity
+        const canSowIndoors = sowMin > 0
+        const earliestSowDay = canSowIndoors ? sowMin : lastFrost
+        return earliestSowDay + this.plant.minDaysToMaturity
     }
 
     _getHarvestMax = (): number => {
-        const harvestMin = this._getHarvestMin()
         const firstFrost = this.station._getFirstFrost()
-        const diff = firstFrost - harvestMin
-        // const harvestMax = this.plant.sowIndoorsBeforeLastFrost > 6 ? 7 : 0
-        return diff
+        const latestSow = this._getSowOutdoorMax()
+        const maxHarvest = latestSow + this.plant.maxDaysToMaturity
+        return maxHarvest > firstFrost || !this.plant.maxDaysToMaturity
+            ? firstFrost
+            : maxHarvest
     }
 
     getHarvestCoords = () => {
         const harvestMin = this._getHarvestMin()
-        const harvestMax = this._getHarvestMax()
+        const harvestMax = this._getHarvestMax() - harvestMin
         return {
             x: this.plant.id,
             y0: harvestMin,
@@ -82,7 +83,10 @@ export class Crop {
 
     getSowOutdoorCoords = () => {
         const sowOutdoorsMin = this._getSowOutdoorMin()
-        const sowOutdoorsMax = this._getSowOutdoorMax()
+        const sowOutdoorsMax =
+            this._getSowOutdoorMax() - sowOutdoorsMin > 0
+                ? this._getSowOutdoorMax() - sowOutdoorsMin
+                : 0
         return { x: this.plant.id, y0: sowOutdoorsMin, y: sowOutdoorsMax }
     }
 }

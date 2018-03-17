@@ -14,5 +14,5 @@ export class Station {
     _getFirstFrost = () =>
         this.station.station.first_frost_50 !== '-666'
             ? getDayOfYear(this.station.station.first_frost_50)
-            : 360
+            : 365
 }
