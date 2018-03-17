@@ -1,0 +1,8 @@
+.annualTemps {
+    flex: 1;
+}
+
+.tempChart {
+    height: 400px;
+    width: 500px;
+}

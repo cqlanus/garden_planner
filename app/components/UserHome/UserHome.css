@@ -1,0 +1,7 @@
+.userHome {
+    grid-area: home;
+}
+
+.chartContainer {
+    display: flex;
+}

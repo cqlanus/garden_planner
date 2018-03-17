@@ -43,15 +43,16 @@ export default class CropBars extends Component<Props> {
         const sample = plants
 
         return (
-            <div>
+            <div className="cropBars">
                 <h3>Garden Planting Calendar</h3>
                 <VictoryChart
                     // animate
-                    width={700}
-                    height={500}
+                    width={400}
+                    height={300}
                     containerComponent={
                         <VictoryCursorContainer
                             cursorDimension="x"
+                            style={{ height: '400px', width: '100%' }}
                             cursorLabelComponent={<CropLabel plants={sample} />}
                             cursorLabel={d => ({ ...d })}
                         />

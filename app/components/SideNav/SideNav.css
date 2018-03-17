@@ -1,0 +1,21 @@
+.sideNav {
+    grid-area: side;
+    background-color: #fbb;
+    // padding: 16px;
+    // height: 100vh;
+
+    & .sideNavBtn {
+        padding: 12px;
+        margin-bottom: 12px;
+        text-decoration: none;
+        color: black;
+        display: block;
+    }
+
+    & .sideNavBtn:visited {
+        color: black;
+    }
+    & .sideNavBtn:hover {
+        background-color: color(#fbb alpha(75%) blackness(10%));
+    }
+}

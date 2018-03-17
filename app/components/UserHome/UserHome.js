@@ -37,8 +37,9 @@ class UserHome extends Component<Props, State> {
 
     render() {
         const { station, plants } = this.props
+        const hasAllData = !!plants.length && station.daily
         return (
-            <div>
+            <div className="userHome">
                 <form onSubmit={this._handleClick}>
                     <input
                         onChange={this._handleChange}
@@ -47,11 +48,12 @@ class UserHome extends Component<Props, State> {
                     />
                     <button type="submit">Search</button>
                 </form>
-                {!!plants.length &&
-                    station.daily && (
+                {hasAllData && (
+                    <div className="chartContainer">
                         <CropBars plants={plants} station={station} />
-                    )}
-                {station.daily && <AnnualTemps station={station} />}
+                        <AnnualTemps station={station} />
+                    </div>
+                )}
             </div>
         )
     }

@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react'
+import style from './AnnualTemps.css'
 import {
     VictoryChart,
     VictoryTheme,
@@ -49,27 +50,29 @@ export default class AnnualTemps extends Component<Props> {
                 gdd: gdd > 0 ? gdd : 0,
             }))
         return (
-            <div className={'annualTemps'}>
+            <div className="annualTemps">
                 <h3>Historical Temperature Norms</h3>
                 {station.daily && (
                     <VictoryChart
                         // animate
-                        width={700}
-                        height={500}
+                        width={400}
+                        height={300}
                         domain={{ x: [0, 366] }}
                         theme={VictoryTheme.material}
                         containerComponent={
                             <VictoryCursorContainer
                                 cursorDimension="x"
-                                cursorLabelComponent={
-                                    <TempLabel
-                                        minTemps={minTemps}
-                                        maxTemps={maxTemps}
-                                        gdd40={gdd40}
-                                        gdd50={gdd50}
-                                    />
-                                }
-                                cursorLabel={d => ({ ...d })}
+                                className="tempChart"
+                                style={{ height: '400px', width: '100%' }}
+                                // cursorLabelComponent={
+                                //     <TempLabel
+                                //         minTemps={minTemps}
+                                //         maxTemps={maxTemps}
+                                //         gdd40={gdd40}
+                                //         gdd50={gdd50}
+                                //     />
+                                // }
+                                // cursorLabel={d => ({ ...d })}
                             />
                         }>
                         <VictoryArea

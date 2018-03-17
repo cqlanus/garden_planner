@@ -1,1 +1,10 @@
 @import './shared/base.css';
+
+@import '../components/SideNav/SideNav.css';
+@import '../components/Main/Main.css';
+@import '../components/NavBar/NavBar.css';
+@import '../components/Footer/Footer.css';
+@import '../components/UserHome/UserHome.css';
+@import '../components/Sample/Sample.css';
+@import '../components/AnnualTemps/AnnualTemps.css';
+@import '../components/CropBars/CropBars.css';
