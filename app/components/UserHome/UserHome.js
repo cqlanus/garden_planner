@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { AnnualTemps, CropBars } from '../'
+import { AnnualTemps, CropBars, Card } from '../'
 import type { StationType, Plant } from '../../types'
 import { getWeatherNorms } from '../../redux'
 
@@ -49,9 +49,27 @@ class UserHome extends Component<Props, State> {
                     <button type="submit">Search</button>
                 </form>
                 {hasAllData && (
-                    <div className="chartContainer">
-                        <CropBars plants={plants} station={station} />
-                        <AnnualTemps station={station} />
+                    // <div className="chartContainer">
+                    //     <CropBars plants={plants} station={station} />
+                    //     <AnnualTemps station={station} />
+                    // </div>
+
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'space-around',
+                        }}>
+                        <Card
+                            style={{
+                                flex: 2,
+                                margin: '12px',
+                            }}>
+                            <CropBars plants={plants} station={station} />
+                        </Card>
+                        <Card
+                            style={{ flex: 2, margin: '12px', marginLeft: 0 }}>
+                            <AnnualTemps station={station} />
+                        </Card>
                     </div>
                 )}
             </div>

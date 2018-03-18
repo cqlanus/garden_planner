@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Main, UserHome, SideNav, NavBar, Footer, Sample } from './components'
+import { Main, UserHome, SideNav, NavBar, Footer } from './components'
 import { me, getWeatherNorms, getPlants } from './redux'
 
 type Props = {

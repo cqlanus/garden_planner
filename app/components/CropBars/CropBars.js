@@ -9,6 +9,7 @@ import {
     VictoryBar,
     VictoryLegend,
     VictoryAxis,
+    createContainer,
 } from 'victory'
 import { Crop, formatAxis } from '../../utils/'
 import { CropLabel } from '../'
@@ -18,6 +19,8 @@ type Props = {
     plants: Array<Plant>,
     station: StationType,
 }
+
+const ZoomCursorContainer = createContainer('zoom', 'cursor')
 
 export default class CropBars extends Component<Props> {
     _getSowIndoorCoords = (plant: Plant) => {
@@ -40,7 +43,7 @@ export default class CropBars extends Component<Props> {
 
     render() {
         const { plants } = this.props
-        const sample = plants.slice(0, 10)
+        const sample = plants
 
         return (
             <div className="cropBars">
@@ -50,14 +53,15 @@ export default class CropBars extends Component<Props> {
                     width={400}
                     height={300}
                     containerComponent={
-                        <VictoryCursorContainer
+                        <ZoomCursorContainer
+                            zoomDomain={{ y: [0, 15] }}
                             cursorDimension="x"
                             style={{ height: '400px', width: '100%' }}
                             cursorLabelComponent={<CropLabel plants={sample} />}
                             cursorLabel={d => ({ ...d })}
                         />
                     }
-                    // theme={VictoryTheme.material}
+                    theme={VictoryTheme.material}
                     domain={{ x: [0, 366] }}
                     domainPadding={10}>
                     <VictoryStack
@@ -86,7 +90,10 @@ export default class CropBars extends Component<Props> {
                         invertAxis
                         style={{ tickLabels: { fontSize: 8 } }}
                         tickValues={sample.map(plant => plant.id)}
-                        tickFormat={sample.map(plant => plant.commonName)}
+                        tickFormat={d => {
+                            const plant = sample[d - 1]
+                            return plant ? plant.commonName : 'hello'
+                        }}
                     />
                     <VictoryLegend
                         // x={50}

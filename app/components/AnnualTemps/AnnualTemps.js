@@ -1,6 +1,5 @@
 // @flow
 import React, { Component } from 'react'
-import style from './AnnualTemps.css'
 import {
     VictoryChart,
     VictoryTheme,
@@ -58,7 +57,7 @@ export default class AnnualTemps extends Component<Props> {
                         width={400}
                         height={300}
                         domain={{ x: [0, 366] }}
-                        // theme={VictoryTheme.material}
+                        theme={VictoryTheme.material}
                         containerComponent={
                             <VictoryCursorContainer
                                 cursorDimension="x"
