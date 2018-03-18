@@ -40,7 +40,7 @@ export default class CropBars extends Component<Props> {
 
     render() {
         const { plants } = this.props
-        const sample = plants
+        const sample = plants.slice(0, 10)
 
         return (
             <div className="cropBars">

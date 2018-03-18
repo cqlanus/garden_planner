@@ -14,7 +14,7 @@ type Props = {
 
 export default class TempLabel extends Component<Props> {
     _calcHeight = (value: number) => {
-        const height = 500
+        const height = 300
         const heightLessMargin = height - 60
         const max = Math.max(...this.props.maxTemps.map(obj => obj.temp))
         const ratio = (heightLessMargin - max) / max

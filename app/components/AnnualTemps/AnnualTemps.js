@@ -64,15 +64,15 @@ export default class AnnualTemps extends Component<Props> {
                                 cursorDimension="x"
                                 className="tempChart"
                                 style={{ height: '400px', width: '100%' }}
-                                // cursorLabelComponent={
-                                //     <TempLabel
-                                //         minTemps={minTemps}
-                                //         maxTemps={maxTemps}
-                                //         gdd40={gdd40}
-                                //         gdd50={gdd50}
-                                //     />
-                                // }
-                                // cursorLabel={d => ({ ...d })}
+                                cursorLabelComponent={
+                                    <TempLabel
+                                        minTemps={minTemps}
+                                        maxTemps={maxTemps}
+                                        gdd40={gdd40}
+                                        gdd50={gdd50}
+                                    />
+                                }
+                                cursorLabel={d => ({ ...d })}
                             />
                         }>
                         <VictoryArea
@@ -125,19 +125,19 @@ export default class AnnualTemps extends Component<Props> {
                             gutter={20}
                             data={[
                                 {
-                                    name: 'Daily Max Temps',
+                                    name: 'Max Temps',
                                     symbol: { fill: '#FCBAB8' },
                                 },
                                 {
-                                    name: 'Daily Min Temps',
+                                    name: 'Min Temps',
                                     symbol: { fill: '#95D7D8' },
                                 },
                                 {
-                                    name: 'Daily GDD (40°F)',
+                                    name: 'GDD (40°F)',
                                     symbol: { fill: '#F4F4A8' },
                                 },
                                 {
-                                    name: 'Daily GDD (50°F)',
+                                    name: 'GDD (50°F)',
                                     symbol: { fill: '#C0E2C0' },
                                 },
                             ]}
