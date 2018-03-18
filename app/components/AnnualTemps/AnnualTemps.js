@@ -58,7 +58,7 @@ export default class AnnualTemps extends Component<Props> {
                         width={400}
                         height={300}
                         domain={{ x: [0, 366] }}
-                        theme={VictoryTheme.material}
+                        // theme={VictoryTheme.material}
                         containerComponent={
                             <VictoryCursorContainer
                                 cursorDimension="x"
@@ -119,8 +119,8 @@ export default class AnnualTemps extends Component<Props> {
                         />
 
                         <VictoryLegend
-                            x={50}
-                            width={800}
+                            // x={50}
+                            width={400}
                             orientation="horizontal"
                             gutter={20}
                             data={[

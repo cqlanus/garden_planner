@@ -1,4 +1,12 @@
 .footer {
     grid-area: foot;
     background-color: #bbb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+
+    .copyright {
+        flex: 1;
+    }
 }

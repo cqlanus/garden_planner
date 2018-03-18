@@ -57,9 +57,9 @@ export default class CropBars extends Component<Props> {
                             cursorLabel={d => ({ ...d })}
                         />
                     }
+                    // theme={VictoryTheme.material}
                     domain={{ x: [0, 366] }}
-                    domainPadding={10}
-                    theme={VictoryTheme.material}>
+                    domainPadding={10}>
                     <VictoryStack
                         horizontal
                         colorScale={['steelblue', 'darkseagreen', 'indianred']}>
@@ -89,8 +89,8 @@ export default class CropBars extends Component<Props> {
                         tickFormat={sample.map(plant => plant.commonName)}
                     />
                     <VictoryLegend
-                        x={50}
-                        width={800}
+                        // x={50}
+                        width={400}
                         orientation="horizontal"
                         gutter={20}
                         data={[

@@ -6,7 +6,11 @@ type Props = {}
 
 class Footer extends Component<Props> {
     render() {
-        return <div className="footer">This is a footer</div>
+        return (
+            <div className="footer">
+                <div className="copyright">&copy; Christopher Lanus 2018</div>
+            </div>
+        )
     }
 }
 

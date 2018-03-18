@@ -13,17 +13,17 @@ class NavBar extends Component<Props> {
                     <h3 className="navTitle">Dashboard</h3>
 
                     <a href="#" className="navBtn">
-                        <Fa.FaDashboard />
+                        <Fa.FaDashboard className="icon" />
                     </a>
                     <a href="#" className="navBtn">
-                        <Fa.FaBellO />
+                        <Fa.FaBellO className="icon" />
                     </a>
                     <a href="#" className="navBtn">
-                        <Fa.FaInfoCircle />
+                        <Fa.FaInfoCircle className="icon" />
                     </a>
 
                     <a href="#" className="navBtn">
-                        <Fa.FaSearch />
+                        <Fa.FaSearch className="icon" />
                     </a>
                 </div>
                 <div className="spacer" />
