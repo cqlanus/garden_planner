@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Main, UserHome, SideNav, NavBar, Footer } from './components'
+import { Container, UserHome, SideNav, NavBar, Footer } from './components'
 import { me, getWeatherNorms, getPlants } from './redux'
 
 type Props = {
@@ -22,12 +22,12 @@ class App extends Component<Props> {
 
     render() {
         return (
-            <Main>
+            <Container>
                 <SideNav />
                 <UserHome />
                 <NavBar />
                 <Footer />
-            </Main>
+            </Container>
         )
     }
 }

@@ -3,7 +3,7 @@
  * This way, we can import all of our components from the same place, rather than
  * having to figure out which file they belong to!
  */
-export { default as Main } from './Main/Main.js'
+export { default as Container } from './Container/Container.js'
 export { default as UserHome } from './UserHome/UserHome'
 export { default as AnnualTemps } from './AnnualTemps/AnnualTemps'
 export { default as CropBars } from './CropBars/CropBars'
