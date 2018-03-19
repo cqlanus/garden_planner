@@ -92,17 +92,6 @@ body form div {
     background-color: rgba(230, 186, 186, 0.75);
 }
 
-.mainContainer {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 250px 1fr;
-    grid-template-rows: 50px 1fr 30px;
-    grid-template-areas:
-        'side nav'
-        'side home'
-        'side foot';
-}
-
 .navBar {
     grid-area: nav;
     background-color: #bbf;
@@ -208,4 +197,13 @@ body form div {
             box-shadow: 1px 1px 5px rgba(0, 0, 0, .3);
 }
 
-/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJtYWluLmJ1bmRsZS5jc3MiLCJzb3VyY2VSb290IjoiIn0=*/
+.mainContainer {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 50px 1fr 30px;
+    grid-template-areas:
+        'side nav'
+        'side home'
+        'side foot';
+}
