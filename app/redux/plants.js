@@ -1,15 +1,13 @@
 // @flow
 import axios from 'axios'
+import { api } from '../api/APIManager'
 
 type State = {
     plants: Array<mixed>,
     isWorking: boolean,
 }
 
-type Action = {
-    type: string,
-    plants?: Array<mixed>,
-}
+type Action = { type: string } | { type: string, plants: Array<mixed> }
 
 // INITIAL STATE
 const initialState = {
@@ -30,13 +28,14 @@ const setPlantsCompleted = (plants: Array<mixed>): Action => ({
 })
 
 // THUNK CREATORS
-export const getPlants = () => (dispatch: any) => {
+export const getPlants = () => async (dispatch: any) => {
     dispatch(setPlantsStarted())
-    return axios
-        .get('https://crops-api.herokuapp.com/api/crops')
-        .then(res => res.data)
-        .then(plants => dispatch(setPlantsCompleted(plants)))
-        .catch(console.log)
+    try {
+        const plants = await api.plantService.getAll()
+        dispatch(setPlantsCompleted(plants))
+    } catch (error) {
+        console.log(error)
+    }
 }
 // REDUCER
 export default (state: State = initialState, action: Action): State => {
